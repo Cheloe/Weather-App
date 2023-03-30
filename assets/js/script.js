@@ -23,6 +23,9 @@ function fetchWeather(lat, lon) {
         var forecast = data
         console.log(forecast.list[1].weather[0])
         for (let i=0; i<5; i++) {
+            // could just append the stuff right away rather than assigning variables ie 
+            //descEl = document.createElement("p");
+            //descEl.textContent = forecast.list[i].weather[0].description
             var weather = forecast.list[i].weather[0].description;
             var icon = forecast.list[i].weather[0].icon;
             var temp = forecast.list[i].main.temp;
