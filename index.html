@@ -13,12 +13,33 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="./assets/css/style.css" />
-
-    <title>Weather Forecast</title>
+    <title>Weather Dashboard</title>
   </head>
 
   <body>
-    
+    <header>
+      <h1>Weather Dashboard</h1>
+    </header>
+    <main class="container-fluid">
+      <container id="cities-container">
+        <h2>Search for a city:</h2>
+        <input id="search-field" type="text">
+        <button id="search-btn" type="submit">Search</button>
+        <hr>
+        <div id="search-history">
+          <button id="atlanta">Atlanta</button>
+          <button id="denver">Denver</button>
+          <button id="seattle">Seattle</button>
+          <button id="san-francisco">San Francisco</button>
+          <button id="slc">Salt Lake City</button>
+          <button id="chicago">Chicago</button>
+          <button id="boston">Boston</button>
+          <button id="austin">Austin</button>
+        </div>
+      </container>
+      <container id="todays-forecast"></container>
+      <container id="five-day-forecast">Five-day forecast:</container>
+    </main>
   </body>
 
   <script
