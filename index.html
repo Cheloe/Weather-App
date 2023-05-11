@@ -17,21 +17,39 @@
   </head>
 
   <body>
-    <header>
-      <h1>Weather Dashboard</h1>
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 bg-dark">
+          <h1 class="text-white">Weather Dashboard</h1>
     </header>
-    <main class="container-fluid">
-      <container id="cities-container">
-        <h2>Search for a city:</h2>
-        <input id="search-field" type="text">
-        <button id="search-btn" type="submit">Search</button>
-        <hr>
-        <div id="search-history">
-          <button id="atlanta">Atlanta</button>
+    <main class="container-fluid col-12">
+      <div class="row d-flex">
+        <div class="form-group col-2 px-4" id="cities-container">
+          <h2>Search for a city:</h2>
+          <input class="form-control mb-2"id="search-field" type="text">
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary" id="search-btn" type="submit">Search</button>
+          </div>
+          <hr>
+          <div id="search-history">
+          </div>
         </div>
-      </container>
-      <container id="todays-forecast"></container>
-      <container id="five-day-forecast">Five-day forecast:</container>
+        <div class="col-10 px-4">
+          <div class="row">
+            <div class="px-2">
+              <!-- <h2>Today's Forecast</h2> -->
+              <div class="card row" id="todays-forecast"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class ="px-2">
+              <h2>Five-day forecast:</h2>
+            </div>
+            <div class="row" id="five-day-forecast"></div>
+          </div>
+      </div> 
+    </div>
+     
+      
+      
     </main>
   </body>
 

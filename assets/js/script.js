@@ -24,12 +24,11 @@ function fetchWeather(location, lat, lon) {
       })
       .then(function (data) {
         console.log(data.list);
-        //to use weather API icons, would have to choose index of 4 or 8 depending on if it's day or night?
         forecast = data.list.filter(function(value, index, Arr) {
           return index % 8 == 0;
         });        
         displayTodaysForecast(location, forecast);
-        for (let j=1; j < forecast.length; j++) {
+        for (let j=0; j < forecast.length; j++) {
             icon = forecast[j].weather[0].icon;
             temp = Math.trunc(forecast[j].main.temp);
             humidity = forecast[j].main.humidity
@@ -54,7 +53,13 @@ function displayTodaysForecast(location, forecast){
   var windEl = document.createElement('h5');
   var tempEl = document.createElement('h5');
   var savedCityButtonEl = document.createElement('button');
-  
+  var savedCityButtonDiv = document.createElement('div');
+
+  //apply class to elements
+  savedCityButtonDiv.classList.add('d-grid', 'gap-2')
+  savedCityButtonEl.classList.add('btn', 'btn-secondary', 'mb-2');
+  savedCityButtonEl.setAttribute('type', 'button');
+  iconEl.classList.add('w-25');
 
   //set html element content
   var iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
@@ -66,10 +71,11 @@ function displayTodaysForecast(location, forecast){
   savedCityButtonEl.textContent = city;
   savedCityButtonEl.setAttribute('data-cityName', city);
   //add element to page
-  searchHistoryEl.append(savedCityButtonEl);
+  searchHistoryEl.append(savedCityButtonDiv);
+  savedCityButtonDiv.append(savedCityButtonEl);
   todaysContainerEl.append(forecastCityEl);
-  todaysContainerEl.append(tempEl);
   todaysContainerEl.append(iconEl);
+  todaysContainerEl.append(tempEl);
   todaysContainerEl.append(humidityEl);
   todaysContainerEl.append(windEl);
 
@@ -93,11 +99,13 @@ function displayTodaysForecast(location, forecast){
 }
 function displayFiveDayForecast(icon, temp, humidity, wind){
   
+  var dayContainer = document.createElement('div');
   var iconEl = document.createElement('img');
   var humidityEl = document.createElement('h5');
   var windEl = document.createElement('h5');
   var tempEl = document.createElement('h5');
 
+  dayContainer.classList.add("col", "card", "m-1");
   console.log(icon);
   var iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
   iconEl.setAttribute("src", iconUrl);
@@ -105,11 +113,11 @@ function displayFiveDayForecast(icon, temp, humidity, wind){
   windEl.textContent= wind + " mph";
   tempEl.textContent = temp + " F";
   
-
-  fiveDayContainerEl.append(tempEl);
-  fiveDayContainerEl.append(iconEl);
-  fiveDayContainerEl.append(humidityEl);
-  fiveDayContainerEl.append(windEl);
+  fiveDayContainerEl.append(dayContainer);
+  dayContainer.append(tempEl);
+  dayContainer.append(iconEl);
+  dayContainer.append(humidityEl);
+  dayContainer.append(windEl);
 }
 
 
@@ -157,3 +165,4 @@ function init() {
 // Add refresh state for when local storage has data
 // Add logic for init
 // Add ceiling for # buttons allowed in recent searches
+// Finish making it pretty with bootstrap
