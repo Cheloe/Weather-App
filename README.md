@@ -22,4 +22,4 @@ A simple JavaScript application that fetches weather data from the openweather.o
 https://github.com/Cheloe/Weather-App
 
 ## Deployed
-https://github.io/Cheloe/Weather-App
+https://cheloe.github.io/Weather-App/
