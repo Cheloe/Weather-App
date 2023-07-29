@@ -1,5 +1,5 @@
 # Weather-App
-
+A simple JavaScript application that fetches weather data from the openweather.org API and displays the current weather for a specified city. Users can input the city name, and the app will show real-time information such as temperature, weather description, humidity, and wind speed.
 
 ## Here's what I did: 
 
