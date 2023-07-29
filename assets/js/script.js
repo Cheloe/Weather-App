@@ -5,6 +5,8 @@ var searchFieldEl = document.getElementById('search-field')
 var searchHistoryEl= document.getElementById('search-history');
 var todaysContainerEl = document.getElementById('todays-forecast');
 var fiveDayContainerEl = document.getElementById('five-day-forecast');
+var cityNameEl= document.getElementById('city-name');
+
 
 var apiKey = 'b7d4b53a4c12da243b0e55e69f915177';
 //var weatherApiUrl = 'https://api.openweathermap.org'
@@ -23,7 +25,7 @@ function fetchWeather(location, lat, lon) {
         return response.json();
       })
       .then(function (data) {
-        console.log(data.list);
+        //console.log(data.list);
         forecast = data.list.filter(function(value, index, Arr) {
           return index % 8 == 0;
         });        
@@ -47,6 +49,7 @@ function displayTodaysForecast(location, forecast){
   var wind = forecast[0].wind.speed;
 
   //create html elements for each item to be displayed
+  document.getElementById('cityName').textContent = city + " (" + now + ")";
   var forecastCityEl = document.createElement('h2');
   var iconEl = document.createElement('img');
   var humidityEl = document.createElement('h5');
@@ -72,31 +75,22 @@ function displayTodaysForecast(location, forecast){
   savedCityButtonEl.setAttribute('data-cityName', city);
   //add element to page
   searchHistoryEl.append(savedCityButtonDiv);
-  savedCityButtonDiv.append(savedCityButtonEl);
   todaysContainerEl.append(forecastCityEl);
   todaysContainerEl.append(iconEl);
   todaysContainerEl.append(tempEl);
   todaysContainerEl.append(humidityEl);
   todaysContainerEl.append(windEl);
 
-
-  //TODO: check to see if this city is in city array
-  //add city to saved cities
-  //savedCitiesArray.push(city);
-  
-  //add city/weather to storage
-  var newStorageObject = {
-    "city": city,
-    "temp": temp,
-    "iconUrl": iconUrl,
-    "humidity": humidity,
-    "wind": wind
+  // check to see if city is already in local storage and if not, add it
+  if (savedCitiesArray.includes(city)) {
+    return;
+  } else {
+    savedCitiesArray.push(city);
+    savedCityButtonDiv.append(savedCityButtonEl);
+    localStorage.setItem("search history", JSON.stringify(savedCitiesArray));
   }
-  console.log(newStorageObject);
-  storageArray.push(newStorageObject);
-  console.log(storageArray);
-  localStorage.setItem("search history", JSON.stringify(storageArray));
 }
+
 function displayFiveDayForecast(icon, temp, humidity, wind){
   
   var dayContainer = document.createElement('div');
@@ -106,7 +100,7 @@ function displayFiveDayForecast(icon, temp, humidity, wind){
   var tempEl = document.createElement('h5');
 
   dayContainer.classList.add("col", "card", "m-1");
-  console.log(icon);
+  //console.log(icon);
   var iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`;
   iconEl.setAttribute("src", iconUrl);
   humidityEl.textContent = humidity + " %";
@@ -120,8 +114,6 @@ function displayFiveDayForecast(icon, temp, humidity, wind){
   dayContainer.append(windEl);
 }
 
-
-
 function fetchCoordinates(cityName) {
     // Insert the API url to get a list of your repos
     var requestUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=b7d4b53a4c12da243b0e55e69f915177`;
@@ -133,7 +125,7 @@ function fetchCoordinates(cityName) {
       })
       .then(function (data) {
         //looping over the fetch response and inserting the URL of your repos into a list
-        console.log(data[0]);
+        //console.log(data[0]);
         var location = data[0].name;
         var lat = data[0].lat;
         var lon = data[0].lon;   
@@ -142,27 +134,60 @@ function fetchCoordinates(cityName) {
       })
 }
 
+// This is the event listener for the search button
 searchBtnEl.addEventListener('click', function(){
     var cityName = searchFieldEl.value.trim();
-    //var cityName = 'Atlanta';
+    clearForecast();
     console.log(cityName);
-    fetchCoordinates(cityName)
+    fetchCoordinates(cityName);
+    searchFieldEl.value = "";
 });
 
-// savedCityButtonEl.addEventListener('click', function(event) {
-//   var cityName = event.target.getAttribute("dataset", "cityName");
-//   fetchCoordinates(cityName);
-// })
+// This clears the forecast when a new city is searched
+function clearForecast() {
+  todaysContainerEl.innerHTML = "";
+  fiveDayContainerEl.innerHTML = "";
+}
+
+function displaySearchHistory() {
+  var savedCities = JSON.parse(localStorage.getItem("search history"));
+  if (savedCities) {
+    savedCitiesArray = savedCities;
+    for (let i=0; i < savedCities.length; i++) {
+      var savedCityButtonEl = document.createElement('button');
+      var savedCityButtonDiv = document.createElement('div');
+      savedCityButtonDiv.classList.add('d-grid', 'gap-2')
+      savedCityButtonEl.classList.add('btn', 'btn-secondary', 'mb-2');
+      savedCityButtonEl.setAttribute('type', 'button');
+      savedCityButtonEl.textContent = savedCities[i];
+      savedCityButtonEl.setAttribute('data-cityName', savedCities[i]);
+      searchHistoryEl.append(savedCityButtonDiv);
+      savedCityButtonDiv.append(savedCityButtonEl);
+    }
+    //display the last searched city
+    fetchCoordinates(savedCities[savedCities.length - 1]);
+  }
+}
+
+      
 
 function init() {
   // this will pull from local storage anything that needs to be pulled on refresh
+  // add buttons for each city found in local storage
+  displaySearchHistory();
 }
 
+// This is the event listener for the saved city buttons
+searchHistoryEl.addEventListener('click', function(event){
+  var cityName = event.target.getAttribute('data-cityName');
+  clearForecast();
+  fetchCoordinates(cityName);
+});
 
 //TODO:
-// Check if city is already in local storage, add if not
-// Add event listeners to new city buttons
 // Add refresh state for when local storage has data
 // Add logic for init
 // Add ceiling for # buttons allowed in recent searches
 // Finish making it pretty with bootstrap
+
+init();
