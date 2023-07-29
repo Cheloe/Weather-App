@@ -166,15 +166,9 @@ function displaySearchHistory() {
     }
     //display the last searched city
     fetchCoordinates(savedCities[savedCities.length - 1]);
+  } else {
+    fetchCoordinates("Salt Lake City");
   }
-}
-
-      
-
-function init() {
-  // this will pull from local storage anything that needs to be pulled on refresh
-  // add buttons for each city found in local storage
-  displaySearchHistory();
 }
 
 // This is the event listener for the saved city buttons
@@ -184,10 +178,8 @@ searchHistoryEl.addEventListener('click', function(event){
   fetchCoordinates(cityName);
 });
 
-//TODO:
-// Add refresh state for when local storage has data
-// Add logic for init
-// Add ceiling for # buttons allowed in recent searches
-// Finish making it pretty with bootstrap
+function init() {
+  displaySearchHistory();
+}
 
 init();
