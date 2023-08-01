@@ -115,7 +115,7 @@ function displayFiveDayForecast(icon, temp, humidity, wind){
 
 function fetchCoordinates(cityName) {
     // Insert the API url to get a list of your repos
-    var requestUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=b7d4b53a4c12da243b0e55e69f915177`;
+    var requestUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=b7d4b53a4c12da243b0e55e69f915177`;
   
     fetch(requestUrl)
     
