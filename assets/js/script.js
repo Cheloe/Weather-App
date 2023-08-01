@@ -9,7 +9,6 @@ var cityNameEl= document.getElementById('city-name');
 
 
 var apiKey = 'b7d4b53a4c12da243b0e55e69f915177';
-//var weatherApiUrl = 'https://api.openweathermap.org'
 var now = dayjs().format("MMMM DD, YYYY");
 var savedCitiesArray= [];
 var storageArray = [];
@@ -17,7 +16,7 @@ var storageArray = [];
 console.log(now);
 
 function fetchWeather(location, lat, lon) {
-    var weatherUrl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`
+    var weatherUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`
 
     fetch(weatherUrl)
     
